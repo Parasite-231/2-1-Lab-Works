@@ -1,0 +1,284 @@
+
+SQL> select * from citizen;
+
+      C_ID C_NAME     C_HOME            AGE OCCUPATION      GENDER     SALARY
+---------- ---------- ---------- ---------- --------------- ------ ----------
+         1 Alice      Dhaka              25 Teacher         Male        50000
+         2 Bob        Dhaka              56 Service         Male        60000
+         3 Charlie    Ctg                71 Retired         Male        10000
+         4 Erin       Ctg                13 Student         Female        500
+         5 Dave       Dhaka              45 Service         Male        40000
+         6 Faythe     Gazipur            54 Doctor          Female      55000
+         7 Grace      Gazipur            65 Musician        Female       5000
+         8 Ivan       Dhaka              56 Engineer        Male        60000
+         9 Frank      Ctg                23 Student         Male         1000
+        10 Micheal    Comilla            32 Teacher         Male        45000
+        11 Niaj       Comilla            51 Farmer          Male        20000
+
+      C_ID C_NAME     C_HOME            AGE OCCUPATION      GENDER     SALARY
+---------- ---------- ---------- ---------- --------------- ------ ----------
+        12 Heidi      Khulna             15 Student         Female       1500
+        13 Ted        Ctg                25 Business        Male       100000
+        14 Walter     Comilla            52 Doctor          Male        70000
+        15 Victor     Gazipur            53 Teacher         Male        50000
+        16 Judy       Dhaka              35 Musician        Female      50000
+        17 Pat        Khulna             43 Service         Male        50000
+        18 Olivia     Khulna             34 Service         Female      45000
+        19 Trent      Ctg                16 Student         Male          500
+        20 Peggy      Comilla            32 Business        Female     120000
+        21 Wendy      Ctg                25 Musician        Female     100000
+        22 Oscar      Gazipur            14 Student         Male          400
+
+      C_ID C_NAME     C_HOME            AGE OCCUPATION      GENDER     SALARY
+---------- ---------- ---------- ---------- --------------- ------ ----------
+        23 Mallet     Dhaka              25 Engineer        Male        50000
+
+23 rows selected.
+
+
+task 1 -->
+
+ select max(salary) from citizen ;
+
+MAX(SALARY)
+-----------
+     120000
+
+task 2 -->
+
+ select c_name from citizen where gender = 'male' and salary = (select max(salary) from citizen where gender = 'male');
+
+C_NAME
+----------
+Peggy
+
+task 3 -->
+
+ select c_name from citizen where gender ='Female' and salary =(select min(salary) from citizen where gender='Female');
+
+C_NAME
+----------
+Erin
+
+task 4-->
+
+ select c_id, c_name from citizen where occupation='Teacher' and salary =(select max(salary) from citizen where occupation ='Teacher');
+
+      C_ID C_NAME
+---------- ----------
+         1 Alice
+        15 Victor
+
+task 5-->
+ select c_name from citizen where occupation='Doctor' and salary=(select max(salary) from citizen where occupation='Doctor');
+
+C_NAME
+----------
+Walter
+
+task 6-->
+
+select c_name from citizen where c_name like '%a%';
+
+C_NAME
+----------
+Charlie
+Dave
+Faythe
+Grace
+Ivan
+Frank
+Micheal
+Niaj
+Walter
+Pat
+Olivia
+
+C_NAME
+----------
+Oscar
+Mallet
+
+13 rows selected.
+
+
+
+task 7-->
+
+ select c_name from citizen where c_name like '__y%';
+
+C_NAME
+----------
+Faythe
+
+task 8-->
+
+select avg(age) from citizen ;
+
+  AVG(AGE)
+----------
+37.3913043
+
+task 9-->
+
+select sum(salary) as total_income from citizen where occupation = 'Doctor';
+
+TOTAL_INCOME
+------------
+      125000
+
+task 10-->
+
+select avg(salary) from citizen where occupation='Student';
+
+AVG(SALARY)
+-----------
+        780
+
+task 11-->
+
+ select c_name from citizen where occupation ='Student'and gender = 'Female' and salary = (select max(salary) from (select salary from citizen where occupation ='Student'));
+
+C_NAME
+----------
+Heidi
+
+task 12-->
+
+ select count(c_home) from (select c_home from citizen group by c_home) where c_home like '%tg%';
+
+COUNT(C_HOME)
+-------------
+            1
+
+
+
+task 13-->
+
+ select max(salary) from(select salary from citizen where c_name like 'A%');
+
+MAX(SALARY)
+-----------
+      50000
+
+
+
+task 14-->
+
+select * from citizen where occupation='Student' and salary =(select min(salary) from citizen where occupation ='Student');
+
+      C_ID C_NAME     C_HOME            AGE OCCUPATION      GENDER     SALARY
+---------- ---------- ---------- ---------- --------------- ------ ----------
+        22 Oscar      Gazipur            14 Student         Male          400
+
+
+task 15-->
+
+ select avg(age) from citizen where occupation='Student';
+
+  AVG(AGE)
+----------
+      16.2
+
+task 16-->
+
+select count(c_name) from citizen group by c_home;
+
+COUNT(C_NAME)
+-------------
+            4
+            6
+            4
+            6
+            3
+
+
+task 17-->
+
+ select c_home, min(salary) from citizen  group by c_home;
+
+C_HOME     MIN(SALARY)
+---------- -----------
+Gazipur            400
+Ctg                500
+Comilla          20000
+Dhaka            40000
+Khulna            1500
+
+
+task 18-->
+
+select avg(salary) from citizen where c_home='Dhaka';
+
+AVG(SALARY)
+-----------
+ 51666.6667
+
+
+task 19-->
+
+select avg(salary) from citizen where gender='Female' and salary >= 10000 group by occupation;
+
+AVG(SALARY)
+-----------
+      55000
+     120000
+      45000
+      75000
+
+
+task 20-->
+
+
+select count(c_name) from citizen where salary not between 40000 and 50000;
+
+COUNT(C_NAME)
+-------------
+           15
+
+
+task 21-->
+
+select count(c_name) from citizen where c_home = 'Ctg' and salary > 20000;
+
+COUNT(C_NAME)
+-------------
+            2
+task 22-->
+
+ select avg(salary) from (select * from citizen where salary >= 55000 and c_home in (select c_home from citizen group by c_home having count(c_name) > 2)) group by c_home;
+
+AVG(SALARY)
+-----------
+      55000
+     100000
+      95000
+      60000
+
+
+task 23-->
+
+select d.name, max(d.size), count(c.id) from citizens c, district d where c.dist=c.name group by d.name;
+
+task 24-->
+
+select d.name, max(d.size), count(c.id) from citizens c, district where c.dist=d.name group by d.name having count(c.cid)>5;
+
+task 25-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
