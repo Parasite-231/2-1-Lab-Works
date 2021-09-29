@@ -1,0 +1,153 @@
+
+--Task 1 
+Enter user-name: system
+Enter password:
+
+SQL> connect system@orclpdb
+Enter password:
+
+CREATE USER USER2136 IDENTIFIED BY iutcse;//created user
+
+GRANT CREATE SESSION, RESOURCE TO USER2136;//Granted the user sufficient privileges to connect
+
+--Task 2 
+
+Primary key: We will define column ID as a primary key because it is unique for every record in the table.
+
+CREATE TABLE Student
+(
+ID INT,
+Name VARCHAR2(12),
+Age INT,
+Blood_Group VARCHAR2(7),
+Department_Name VARCHAR2(7),
+Mobile_Number INT,
+PRIMARY KEY(ID)
+);
+
+Table created.
+
+CREATE TABLE Grades
+(
+Student_ID INT,
+GPA FLOAT,
+Semester VARCHAR2(10)
+);
+
+Table created.
+
+INSERT INTO Student VALUES(1, 'Tamim', 23, 'A+ve', 'CSE', 01412345678);
+INSERT INTO Student VALUES(2, 'Kayes', 22, 'B-ve', 'EEE', 01912345679);
+INSERT INTO Student VALUES(3, 'Mominul',20, 'AB+ve', 'MCE', 01912345680);
+INSERT INTO Student VALUES(4, 'Sakib', 24, 'O+ve', 'CSE', 01912345681);
+INSERT INTO Student VALUES(5, 'Mushfiq', 24, 'O+ve', 'CSE', 01912345682);
+
+INSERT INTO Grades VALUES(1, 3.75, 'SUMMER');
+INSERT INTO Grades VALUES(1, 2.75, 'WINTER');
+INSERT INTO Grades VALUES(2, 3.30, 'SUMMER');
+INSERT INTO Grades VALUES(3, 3.60, 'SUMMER');
+INSERT INTO Grades VALUES(2, 3.96, 'WINTER');
+INSERT INTO Grades VALUES(4, 4.00, 'SUMMER');
+INSERT INTO Grades VALUES(5, 2.99, 'WINTER');
+
+--Task 3
+
+SQL> INSERT INTO Student Values(1, 'Muktadir', 21, 'AB+ve', 'CSE',01306989578 );
+INSERT INTO Student Values(1, 'Muktadir', 21, 'AB+ve', 'CSE', 01306989578)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (USER2136.SYS_C007468) violated
+
+--Task 4:
+
+No we cant assign Student_id as the primary key for the table Grades because its because it is unique for every record in the table.
+
+--Task 5 and 6:
+
+1 row created.
+
+SQL> INSERT INTO Grades VALUES(1, 2.75, 'WINTER');
+
+1 row created.
+
+SQL> INSERT INTO Grades VALUES(2, 3.30, 'SUMMER');
+
+1 row created.
+
+SQL> INSERT INTO Grades VALUES(3, 3.60, 'SUMMER');
+
+1 row created.
+
+SQL> INSERT INTO Grades VALUES(2, 3.96, 'WINTER');
+
+1 row created.
+
+SQL> INSERT INTO Grades VALUES(4, 4.00, 'SUMMER');
+
+1 row created.
+
+SQL> INSERT INTO Grades VALUES(5, 2.99, 'WINTER');
+
+1 row created.
+
+SQL> SELECT * FROM Grades;
+
+STUDENT_ID        GPA SEMESTER
+---------- ---------- --------
+         1       3.75 SUMMER
+         1       2.75 WINTER
+         2        3.3 SUMMER
+         3        3.6 SUMMER
+         2       3.96 WINTER
+         4          4 SUMMER
+         5       2.99 WINTER
+
+7 rows selected.
+
+
+
+--TASK 7:
+SQL> INSERT INTO Grades VALUES(5, 2.45, 'SUMMER');
+
+1 row created.
+
+SQL> SELECT * FROM Grades;
+
+STUDENT_ID        GPA SEMESTER
+---------- ---------- --------
+         1       3.75 SUMMER
+         1       2.75 WINTER
+         2        3.3 SUMMER
+         3        3.6 SUMMER
+         2       3.96 WINTER
+         4          4 SUMMER
+         5       2.99 WINTER
+         5       2.45 SUMMER
+
+
+
+CREATE TABLE instructors
+(
+inst_id INT,
+name VARCHAR(10),
+age INT,
+CONSTRAINT instructor_table_pk PRIMARY KEY (inst_id)
+);
+
+CREATE TABLE courses
+(
+course_code INT,
+credit NUMBER,
+instructor INT,
+CONSTRAINT courses_table_pk PRIMARY KEY (course_code),
+CONSTRAINT courses_table_fk FOREIGN KEY (instructor) REFERENCES instructors(inst_id)
+);
+
+INSERT INTO instructors VALUES (2, 'Aziz', 44);
+INSERT INTO instructors VALUES (3, 'Sanu', 45);
+
+
+INSERT INTO courses VALUES (4550, 4, 2);
+INSERT INTO courses VALUES (4308, 6, 3);
+
+

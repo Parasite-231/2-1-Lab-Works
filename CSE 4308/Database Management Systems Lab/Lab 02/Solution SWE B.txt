@@ -1,0 +1,63 @@
+--TASK 1
+
+First, log in as system under the pluggable database. Then -
+
+CREATE USER USER4443 IDENTIFIED BY iutcse;
+
+GRANT CREATE SESSION, RESOURCE, UNLIMITED TABLESPACE TO USER4443;
+
+DISCONNECT;
+
+--TASK 2
+
+CONNECT USER4443/iutcse@orclpdb;
+Connected
+
+CREATE TABLE student
+(
+	id INT,
+	name VARCHAR2(30),
+	age INT,
+	blood_group VARCHAR2(5),
+	department_name VARCHAR2(20),
+	mobile_number INT,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE grades
+(
+	student_id INT,
+	gpa varchar2(5), --or gpa NUMBER(3,2),
+	semester VARCHAR2(5)
+);
+
+--TASK 3
+
+INSERT INTO student VALUES (1,'Tamim',23,'A+ve','CSE',01412345678);
+1 row created
+INSERT INTO student VALUES (1,'Tamim',23,'A+ve','CSE',01412345678);
+--inserting the same row again causes an error because another entry with a pre-existing ID value
+is already present, and so it violates the primary key constraint. (Show the error here.)
+
+--TASK 4
+No, we cannot. The values under the student_id column in the grades table are non-unique, that is, the same
+value can be seen repeated sometimes e.g. student_id 1.
+
+-TASK 5
+
+--you should show all the insert statement for all the entries here for both the student table
+and the grades table.
+--after inserting the entries, you should execute the following query to show all entries:
+
+SELECT * FROM student;
+SELECT * FROM grades;
+
+--TASK 6
+
+SELECT * FROM student;
+
+--TASK 7
+
+INSERT INTO grades VALUES (5,'2.45','SUMMER'); --if gpa data type is VARCHAR2
+--OR
+INSERT INTO grades VALUES (5,2.45,'SUMMER'); --if gpa data type is NUMBER
